@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Encurtador de URL</title>
+    <script>
+        // Função para obter o valor do parâmetro da URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Obtém o valor de "url_curta" da URL
+        const urlCurta = getUrlParameter('url_curta');
+
+        // Exibe o valor de "url_curta" na página
+        window.onload = function() {
+            if (urlCurta) {
+                document.getElementById('urlCurta').textContent = `URL curta: ${urlCurta}`;
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Encurtador de URL</h1>
+    <form action="/encurtar" method="POST">
+        <label for="url_original">URL Original:</label>
+        <input type="text" id="url_original" name="url_original" required>
+        <br>
+        <button type="submit">Encurtar</button>
+    </form>
+
+    <h2>Redirecionar URL Curta para Original</h2>
+    <p id="urlCurta"></p>
+    <form action="/redirecionar" method="GET">
+        <label for="url_curta">URL Curta:</label>
+        <input type="text" id="url_curta" name="url_curta" required>
+        <br>
+        <button type="submit">Redirecionar</button>
+    </form>
+
+    <h2>Pesquisar URL Curta por data</h2>
+    <p id="urlCurtaData"></p>
+    <form action="/urlsPorData" method="GET">
+        <label for="data">URL Curta por data:</label>
+        <input type="date" id="data" name="data" required>
+        <br>
+        <button type="submit">Redirecionar</button>
+    </form>
+</body>
+</html>
