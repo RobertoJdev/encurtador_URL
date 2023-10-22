@@ -90,20 +90,25 @@ app.get('/urlsPorData', (req, res) => {
   });
 });
 
-app.get('/urlPorEncurtamento/:url_curta', (req, res) => {
-  const { url_curta } = req.params;
+app.get('/urlPorEncurtamento', (req, res) => {
+  //const { url_original } = req.params;
+  const url_original = req.query.url_original;
 
-  db.get('SELECT url_original FROM urls WHERE url_curta = ?', [url_curta], (err, row) => {
+  db.get('SELECT url_curta FROM urls WHERE url_original = ?', [url_original], (err, row) => {
     if (err) {
       res.status(500).send('Erro interno do servidor.');
       return;
     }
 
     if (row) {
-      res.json({ url_original: row.url_original });
+      //console.log(`URL curta encontrada: ${row.url_original}`);
+      //res.redirect(row.url_original);
+      res.send(`URL curta: <a href="/${row.url_curta}">/${row.url_curta}</a>`);
     } else {
+      console.log('URL curta não encontrada.');
       res.status(404).send('URL curta não encontrada.');
     }
+
   });
 });
 
