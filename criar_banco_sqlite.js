@@ -1,6 +1,11 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('dbEncurtadorURL.db');
 
+/**
+ * Responsável por criar o banco de dados na raiz do projeto.
+ * @param {}  - Não são necessários parametros para criação.
+ * @returns {db} - Retorna um objeto do tipo DB sendo criado na pasta raiz do projeto.
+ */
 db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS urls (
@@ -18,3 +23,4 @@ db.close((err) => {
   }
   console.log('Banco de dados criado com sucesso.');
 });
+

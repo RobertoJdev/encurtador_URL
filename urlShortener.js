@@ -21,7 +21,4 @@ function encurtarURL(req, res) {
   res.send(`URL encurtada: <a href="/${url_curta}">/${url_curta}</a>`);
 }
 
-encurta
-
-
 module.exports = encurtarURL;

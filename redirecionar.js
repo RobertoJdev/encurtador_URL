@@ -1,9 +1,14 @@
-// redirecionar.js
+/** This is a description of the foo function. */
 
 const sqlite3 = require('sqlite3').verbose();
 
 const db = new sqlite3.Database('dbEncurtadorURL.db');
 
+/**
+ * Realiza busca no banco de dados utilizando URL curta passada como parametro.
+ * @param {string} url_curta - Url passada para realiazar a busca no DB.
+ * @returns {string} - Retorna Url original da Url passada, caso não encontre não retornará nada.
+ */
 function redirecionar(req, res) {
   const url_curta = req.query.url_curta;
   //console.log(`Parâmetro "url_curta" recebido: ${url_curta}`);

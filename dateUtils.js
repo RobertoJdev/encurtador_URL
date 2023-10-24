@@ -1,5 +1,9 @@
-// dateUtils.js
 
+/**
+ * Retorna uma data formatada simplificada para o padrão PT_BR.
+ * @param {time} TimeStamp - Entrada de data no formato original TIMESTAMP.
+ * @returns {string} -Retorna data resumida no formato DD-MM-YYYY.
+ */
 function converterFormatoData(dataOriginal) {
   //console.log(dataOriginal);
   const meses = {
