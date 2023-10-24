@@ -4,7 +4,11 @@ const shortid = require('shortid');
 const app = express();
 const port = process.env.PORT || 3000;
 
+
 const db = new sqlite3.Database('dbEncurtadorURL.db');
+const encurtarURL = require('./urlShortener');
+const { converterFormatoData } = require('./dateUtils');
+const redirecionar = require('./redirecionar');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -13,50 +17,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/encurtar', (req, res) => {
-  const { url_original } = req.body;
-  const url_curta = shortid.generate();
+app.post('/encurtar', encurtarURL);
 
-  //console.log(url_original);
-
-  const data_criacao = new Date().toUTCString();
-  console.log(data_criacao);
-
-
-  //const dataOriginal = "Sun, 22 Oct 2023 02:45:32 GMT";
-  const dataFormatada = converterFormatoData(data_criacao);
-  console.log(dataFormatada); // Isso imprimirá "22-10-2023"
-
-
-  const stmt = db.prepare('INSERT INTO urls (url_original, url_curta, data_criacao) VALUES (?, ?, ?)');
-  stmt.run(url_original, url_curta, dataFormatada);
-  stmt.finalize();
-
-  res.send(`URL encurtada: <a href="/${url_curta}">/${url_curta}</a>`);
-});
-
-app.get('/redirecionar', (req, res) => {
-  const url_curta = req.query.url_curta;
-  console.log(`Parâmetro "url_curta" recebido: ${url_curta}`);
-  // Restante da lógica para redirecionar com base na URL curta
-
-  // Restante da lógica para redirecionar com base na URL curta
-  db.get('SELECT url_original FROM urls WHERE url_curta = ?', [url_curta], (err, row) => {
-    if (err) {
-      res.status(500).send('Erro interno do servidor.');
-      return;
-    }
-
-    if (row) {
-      console.log(`URL original encontrada: ${row.url_original}`);
-      //res.redirect(row.url_original);
-      res.send(`URL original: <a href="/${row.url_original}">/${row.url_original}</a>`);
-    } else {
-      console.log('URL curta não encontrada.');
-      res.status(404).send('URL curta não encontrada.');
-    }
-  });
-});
+app.get('/redirecionar', redirecionar);
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
@@ -111,36 +74,6 @@ app.get('/urlPorEncurtamento', (req, res) => {
 
   });
 });
-
-function converterFormatoData(dataOriginal) {
-  const meses = {
-    'Jan': '01',
-    'Feb': '02',
-    'Mar': '03',
-    'Apr': '04',
-    'May': '05',
-    'Jun': '06',
-    'Jul': '07',
-    'Aug': '08',
-    'Sep': '09',
-    'Oct': '10',
-    'Nov': '11',
-    'Dec': '12',
-  };
-
-  // Dividir a data em partes
-  const partes = dataOriginal.split(' ');
-
-  // Extrair dia, mês e ano
-  const dia = partes[1];
-  const mes = meses[partes[2]];
-  const ano = partes[3];
-
-  // Formatar a data no formato "dd-mm-yyyy"
-  const dataFormatada = `${dia}-${mes}-${ano}`;
-
-  return dataFormatada;
-}
 
 function converterData(dataOriginal) {
   const partes = dataOriginal.split('-'); // Divide a data em partes usando o traço
