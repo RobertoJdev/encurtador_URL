@@ -25,7 +25,7 @@ function urlPorEncurtamento(req, res) {
             //res.redirect(row.url_original);
             res.send(`URL curta: <a href="/${row.url_curta}">/${row.url_curta}</a>`);
         } else {
-            console.log('URL curta não encontrada.');
+            //console.log('URL curta não encontrada.');
             res.status(404).send('URL curta não encontrada.');
         }
 

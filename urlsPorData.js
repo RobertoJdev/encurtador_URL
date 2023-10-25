@@ -27,13 +27,13 @@ function urlsPorData(req, res) {
 
         const dados = rows;
 
-        console.log(rows);
+        //console.log(rows);
         // Converter os dados para uma string JSON
         const jsonString = JSON.stringify(dados);
-        console.log(jsonString);
+        //console.log(jsonString);
 
         const linhasFormatadas = formatarParaLinhas(dados);
-        console.log(linhasFormatadas);
+        //console.log(linhasFormatadas);
     });
 }
 
