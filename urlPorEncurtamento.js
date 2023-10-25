@@ -1,5 +1,10 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('dbEncurtadorURL.db');
+
+/**
+ * @module urlPorEncurtamento
+ */
+
 /**
  * Retorna uma Url curta previamente cadastrada no DB.
  * @param {string} URL - Url original passada para realiazar o busca no DB.
